@@ -8,8 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="order-messaging" />
         <module name="kafka-model" />
-        <module name="kafka-consumer" />
         <module name="order-application-service" />
+        <module name="kafka-consumer" />
         <module name="common-domain" />
         <module name="kafka-producer" />
         <module name="order-application" />
