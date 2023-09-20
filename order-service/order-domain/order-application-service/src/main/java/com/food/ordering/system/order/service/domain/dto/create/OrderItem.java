@@ -1,8 +1,8 @@
 package com.food.ordering.system.order.service.domain.dto.create;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.AllArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;

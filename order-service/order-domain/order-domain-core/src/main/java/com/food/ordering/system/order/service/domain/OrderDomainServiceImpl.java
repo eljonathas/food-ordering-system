@@ -1,6 +1,5 @@
 package com.food.ordering.system.order.service.domain;
 
-import com.food.ordering.system.order.service.domain.OrderDomainService;
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.entity.Product;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
@@ -16,7 +15,9 @@ import java.util.List;
 
 @Slf4j
 public class OrderDomainServiceImpl implements OrderDomainService {
+
     private static final String UTC = "UTC";
+
     @Override
     public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restaurant) {
         validateRestaurant(restaurant);
@@ -43,7 +44,7 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     @Override
     public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages) {
         order.initCancel(failureMessages);
-        log.info("Order payment is cancelling for order with id: {}", order.getId().getValue());
+        log.info("Order payment is cancelling for order id: {}", order.getId().getValue());
         return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
     }
 
@@ -54,15 +55,16 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     }
 
     private void validateRestaurant(Restaurant restaurant) {
-        if (!restaurant.isActive()){
-            throw new OrderDomainException("Restaurant with id "+ restaurant.getId().getValue() +" is currently not active!");
+        if (!restaurant.isActive()) {
+            throw new OrderDomainException("Restaurant with id " + restaurant.getId().getValue() +
+                    " is currently not active!");
         }
     }
 
     private void setOrderProductInformation(Order order, Restaurant restaurant) {
         order.getItems().forEach(orderItem -> restaurant.getProducts().forEach(restaurantProduct -> {
             Product currentProduct = orderItem.getProduct();
-            if(currentProduct.equals(restaurantProduct)){
+            if (currentProduct.equals(restaurantProduct)) {
                 currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(),
                         restaurantProduct.getPrice());
             }
